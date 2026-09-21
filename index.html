@@ -7,7 +7,7 @@
 <title>GURUTTO｜Androidアプリと、その作り方</title>
 <meta name="description" content="個人で開発しているAndroidアプリの一覧。アカウント登録なし、入力した記録は開発者のサーバーに送信されません。AI社員のチームと作っている過程は、noteとXで公開しています。">
 <link rel="canonical" href="https://guruttopd-beep.github.io/gurutto/">
-<link rel="icon" href="logo-mark.png">
+<link rel="icon" href="favicon.png">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GURUTTO">
@@ -68,7 +68,6 @@
   .badge.live { background: #e6f2e8; color: #1b5e20; }
   .badge.soon { background: #efefeb; color: var(--muted); }
   .app p { margin-top: 4px; font-size: .92rem; line-height: 1.7; }
-  .app .note { color: var(--muted); font-size: .85rem; }
 
   /* ボタン */
   .btn {
@@ -99,7 +98,7 @@
 
 <header class="hero">
   <div class="wrap">
-    <img class="mark" src="logo-mark.png" alt="GURUTTO ロゴ" width="72" height="70">
+    <img class="mark" src="logo-mark.png" alt="" width="72" height="70">
     <p class="brand">GURUTTO</p>
     <h1>手元で完結する、実用的な<br>Androidアプリを作っています。</h1>
     <p class="lead">アカウント登録は不要。入力した記録は、開発者のサーバーに送信されず、端末内に保存されます。</p>
@@ -125,7 +124,7 @@
           <div class="body">
             <h4>冠婚葬祭ポケット<span class="badge live">公開中</span></h4>
             <p>結婚式・葬儀・法事のマナーと挨拶文例をオフラインで。式場で電波がなくても開けます。</p>
-            <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.kankonpocket&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener">Google Playで見る</a>
+            <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.kankonpocket&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="冠婚葬祭ポケットをGoogle Playで見る">Google Playで見る</a>
           </div>
         </article>
 
@@ -134,7 +133,7 @@
           <div class="body">
             <h4>そなりす<span class="badge live">公開中</span></h4>
             <p>家族の人数から必要な備蓄量を自動計算。賞味期限が切れる前に、通知でお知らせします。</p>
-            <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.sonaestock&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener">Google Playで見る</a>
+            <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.sonaestock&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="そなりすをGoogle Playで見る">Google Playで見る</a>
           </div>
         </article>
 
@@ -143,7 +142,7 @@
           <div class="body">
             <h4>あと何回<span class="badge live">公開中</span></h4>
             <p>大切な人との年齢と会う頻度から「あと何回会えるか」を計算して、ホーム画面にそっと表示します。</p>
-            <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.atonankai&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener">Google Playで見る</a>
+            <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.atonankai&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="あと何回をGoogle Playで見る">Google Playで見る</a>
           </div>
         </article>
       </div>
@@ -184,9 +183,7 @@
       <p class="intro">非エンジニアが、Claude Code の専門エージェント（AI社員）のチームと、複数のアプリを同時に開発・運営しています。何をどう任せているのか、設定ファイルや組織図は個人情報を除いた実物を公開しながら、「読んで真似できる」連載にまとめています。</p>
       <div class="cta">
         <a class="btn" href="https://note.com/ai_shain_keiei" rel="noopener">noteで連載を読む</a>
-        <!-- 【公開前に必須】Xのユーザー名が決まったら、次のコメントを外して【ユーザー名】を置き換える。
-        <a class="btn ghost" href="https://x.com/【ユーザー名】" rel="noopener">Xで開発の日々を見る</a>
-        -->
+        <a class="btn ghost" href="https://x.com/7ve0le" rel="noopener">Xで開発の日々を見る</a>
       </div>
       <p class="fine">連載の第1回は無料で読めます。</p>
     </div>
@@ -197,7 +194,7 @@
       <h2>このサイトについて</h2>
       <ul class="plain">
         <li>個人で開発している、Android向けアプリのサイトです（Google Playの開発者名は「gurutto」）。</li>
-        <li>どのアプリも、アカウント登録なしで使えます。一部のアプリには、広告（Google AdMob）とアプリ内課金（買い切り）があります。詳しくは<a href="https://guruttopd-beep.github.io/">プライバシーポリシー</a>をご覧ください。</li>
+        <li>各アプリは、アカウント登録なしで使える設計です。広告（Google AdMob）を表示するアプリと、買い切りのアプリ内課金で機能を解除できるアプリがあります。詳しくは<a href="https://guruttopd-beep.github.io/">プライバシーポリシー</a>をご覧ください。</li>
         <li>お問い合わせは、各アプリのGoogle Playストアページに記載の連絡先へお願いします。</li>
       </ul>
     </div>
