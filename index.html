@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
+<!-- アクセス解析（GA4）。同意モードの初期設定入り（根拠は 00_運用/相互送客設計.md §7）。測定IDを変えるときは、ここの2か所を直す -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  // 広告関連の機能は使わないので、全世界で拒否
+  gtag('consent', 'default', {'ad_storage': 'denied', 'ad_user_data': 'denied', 'ad_personalization': 'denied'});
+  // 同意バナーは置かないため、EEA・英国・スイスは計測用cookieも拒否（実質的に計測しない）
+  gtag('consent', 'default', {'analytics_storage': 'denied', 'ad_storage': 'denied', 'ad_user_data': 'denied', 'ad_personalization': 'denied',
+    'region': ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MT','NL','NO','PL','PT','RO','SK','SI','ES','SE','GB','CH']});
+  gtag('js', new Date());
+  gtag('config', 'G-9YHR7EYXCD');
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9YHR7EYXCD"></script>
 <title>GURUTTO｜Androidアプリと、その作り方</title>
 <meta name="description" content="個人で開発しているAndroidアプリの一覧。アカウント登録なし、入力した記録は開発者のサーバーに送信されません。AI社員のチームと作っている過程は、noteとXで公開しています。">
 <link rel="canonical" href="https://guruttopd-beep.github.io/gurutto/">
@@ -199,9 +212,7 @@
         <li>個人で開発している、Android向けアプリのサイトです（Google Playの開発者名は「gurutto」）。</li>
         <li>各アプリは、アカウント登録なしで使える設計です。広告（Google AdMob）を表示するアプリと、買い切りのアプリ内課金で機能を解除できるアプリがあります。詳しくは<a href="https://guruttopd-beep.github.io/">プライバシーポリシー</a>をご覧ください。</li>
         <li>お問い合わせは、各アプリのGoogle Playストアページに記載の連絡先へお願いします。</li>
-        <!-- 【GA4を有効にするとき】下の通知文のコメントを外す（ページ末尾の計測タグと同時に有効にする）
         <li>このサイトでは、利用状況を把握し、サイトを改善するために、Googleが提供するアクセス解析サービス「Google アナリティクス」を使っています。Google アナリティクスはcookieを使用し、閲覧したページ、外部リンクのクリック、参照元、ブラウザ・端末の種類、おおよその地域などの情報を、Google LLCに送信して集計します。氏名・メールアドレスなどは送信しません。cookie等の識別子で端末単位に集計され、Googleが取り扱います。cookieはブラウザの設定で無効にできます。詳しくは<a href="https://policies.google.com/technologies/partner-sites" rel="noopener">Googleの説明</a>と、<a href="https://guruttopd-beep.github.io/#site-analytics">プライバシーポリシー（10. ウェブサイトのアクセス解析）</a>をご覧ください。</li>
-        -->
       </ul>
     </div>
   </section>
@@ -213,22 +224,6 @@
     <p style="margin-top:8px">&copy; 2026 gurutto</p>
   </div>
 </footer>
-
-<!-- ▼ アクセス解析（GA4）。測定IDが決まったら、このコメントを外して G-XXXXXXXXXX を本物に置き換える。
-     上の「このサイトについて」の通知文（コメント中）も同時に有効にする。手順と根拠は 00_運用/相互送客設計.md §7
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  // 広告関連の機能は使わないので、全世界で拒否
-  gtag('consent', 'default', {'ad_storage': 'denied', 'ad_user_data': 'denied', 'ad_personalization': 'denied'});
-  // 同意バナーは置かないため、EEA・英国・スイスは計測用cookieも拒否（実質的に計測しない）
-  gtag('consent', 'default', {'analytics_storage': 'denied', 'ad_storage': 'denied', 'ad_user_data': 'denied', 'ad_personalization': 'denied',
-    'region': ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MT','NL','NO','PL','PT','RO','SK','SI','ES','SE','GB','CH']});
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-▲ -->
 
 </body>
 </html>
