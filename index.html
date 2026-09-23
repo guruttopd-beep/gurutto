@@ -51,7 +51,8 @@
     --focus: #e4572e;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { background: var(--paper); }
+  html { background: var(--paper); scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   body {
     font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
     line-height: 1.8;
@@ -86,38 +87,48 @@
   .jump a { padding: 4px 2px; text-decoration: none; border-bottom: 2px solid transparent; transition: border-color .15s ease; }
   .jump a:hover { border-color: var(--loop); }
 
-  /* ループイラスト */
+  /* ループイラスト：手描き風の輪＋ぐるぐる巡り続ける光の粒＋回転するロゴ。
+     アプリの数に紐づかない構成なので、アプリが増減しても作り直し不要。 */
+  .hero-visual { perspective: 900px; }
   .loop-stage {
     appearance: none; background: none; border: none; padding: 0; margin: 32px auto 4px; cursor: pointer;
-    width: min(78vw, 300px); aspect-ratio: 1;
-    display: block;
+    width: min(86vw, 360px); aspect-ratio: 1;
+    display: block; transform-style: preserve-3d; will-change: transform;
   }
-  .loop-stage svg { width: 100%; height: 100%; display: block; }
-  .loop-stage .ring {
-    fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
-    stroke-dasharray: 1; stroke-dashoffset: 1;
-    animation: draw-ring 1.7s cubic-bezier(.65,.05,.2,1) forwards;
+  .loop-stage svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  #ringPath { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .loop-stage .ring { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw-ring 1.7s cubic-bezier(.65,.05,.2,1) forwards; }
+
+  .loop-stage .orbit {
+    offset-path: path("M 180.0 42.0 C 201.4 42.1 223.8 57.8 244.0 69.1 C 264.2 80.5 290.9 91.5 301.2 110.0 C 311.6 128.5 306.4 156.9 306.0 180.0 C 305.6 203.1 309.2 230.5 298.6 248.5 C 288.1 266.5 262.3 277.0 242.5 288.3 C 222.7 299.5 201.0 315.7 180.0 316.0 C 159.0 316.3 136.6 301.1 116.5 290.0 C 96.4 278.9 69.7 267.8 59.6 249.5 C 49.5 231.2 55.9 203.1 56.0 180.0 C 56.1 156.9 50.6 129.6 60.5 111.0 C 70.4 92.4 95.6 79.8 115.5 68.3 C 135.4 56.8 158.6 41.9 180.0 42.0 Z");
+    offset-rotate: 0deg; offset-distance: 0%;
+    opacity: 0;
+    animation: orbit-fade-in .5s ease forwards, orbit-move 7s linear infinite;
+    animation-delay: 1.7s, 1.7s;
   }
-  .loop-stage .node {
-    opacity: 0; transform-origin: center; transform-box: fill-box; transform: scale(0);
-    animation: pop-node .5s cubic-bezier(.2,1.4,.4,1) forwards;
-  }
+  .loop-stage .orb-trail { transform: translate(-16px, -16px); }
+  .loop-stage .orb { transform: translate(-5.5px, -5.5px); }
+
+  .mark-stage { transform-origin: center; transform-box: fill-box; transition: transform .6s cubic-bezier(.3,1.6,.4,1); }
   .loop-stage .mark { opacity: 0; animation: fade-mark .6s ease forwards; animation-delay: .15s; }
-  .loop-stage .n0 { animation-delay: 1.05s; }
-  .loop-stage .n1 { animation-delay: 1.15s; }
-  .loop-stage .n2 { animation-delay: 1.25s; }
-  .loop-stage .n3 { animation-delay: 1.35s; }
-  .loop-stage .n4 { animation-delay: 1.45s; }
-  .loop-stage .n5 { animation-delay: 1.55s; }
+  .loop-stage:hover .mark-stage, .loop-stage:focus-visible .mark-stage { transform: rotate(24deg); }
+  .loop-stage.spin .mark-stage { animation: spin-once .7s cubic-bezier(.3,1.1,.3,1); }
+
   .loop-caption { margin-top: 10px; font-size: .78rem; color: var(--muted); }
 
   @keyframes draw-ring { to { stroke-dashoffset: 0; } }
-  @keyframes pop-node { to { opacity: 1; transform: scale(1); } }
   @keyframes fade-mark { to { opacity: 1; } }
+  @keyframes orbit-fade-in { to { opacity: 1; } }
+  @keyframes orbit-move { to { offset-distance: 100%; } }
+  @keyframes spin-once { to { transform: rotate(360deg); } }
 
   @media (prefers-reduced-motion: reduce) {
+    .loop-stage { transition: none; }
     .loop-stage .ring { animation: none; stroke-dashoffset: 0; }
-    .loop-stage .node, .loop-stage .mark { animation: none; opacity: 1; transform: scale(1); }
+    .loop-stage .mark { animation: none; opacity: 1; }
+    .loop-stage .orbit { animation: none; opacity: 0; }
+    .mark-stage, .loop-stage.spin .mark-stage { animation: none; transition: none; }
+    .loop-stage:hover .mark-stage, .loop-stage:focus-visible .mark-stage { transform: none; }
   }
 
   section { padding: 48px 0; border-top: 1px solid var(--line); }
@@ -152,6 +163,7 @@
     transition: opacity .15s ease, transform .15s ease;
   }
   .btn:hover { opacity: .88; transform: translateY(-1px); }
+  .btn:active { transform: translateY(0) scale(.97); transition-duration: .05s; }
   .btn.ghost { background: transparent; color: var(--ink); }
   .app .btn { margin-top: 10px; min-height: 40px; padding: 0 16px; font-size: .88rem; }
   .cta { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
@@ -169,9 +181,9 @@
   }
 
   @media (min-width: 860px) {
-    .hero h1 { font-size: 2.15rem; }
+    .hero h1 { font-size: 2.15rem; letter-spacing: -.01em; }
     .hero { padding: 64px 0 8px; }
-    .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 260px; align-items: center; gap: 40px; text-align: left; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; align-items: center; gap: 40px; text-align: left; }
     .hero-copy { max-width: none; margin: 0; }
     .brand-row { justify-content: flex-start; }
     .jump { justify-content: flex-start; }
@@ -200,17 +212,28 @@
       </nav>
     </div>
 
-    <div class="hero-visual">
+    <div class="hero-visual" id="heroVisual">
       <button type="button" class="loop-stage" id="loopStage" aria-label="ロゴのループをもう一度描く">
         <svg viewBox="0 0 360 360" aria-hidden="true">
-          <path class="ring" d="M 180.0 42.0 C 201.4 42.1 223.8 57.8 244.0 69.1 C 264.2 80.5 290.9 91.5 301.2 110.0 C 311.6 128.5 306.4 156.9 306.0 180.0 C 305.6 203.1 309.2 230.5 298.6 248.5 C 288.1 266.5 262.3 277.0 242.5 288.3 C 222.7 299.5 201.0 315.7 180.0 316.0 C 159.0 316.3 136.6 301.1 116.5 290.0 C 96.4 278.9 69.7 267.8 59.6 249.5 C 49.5 231.2 55.9 203.1 56.0 180.0 C 56.1 156.9 50.6 129.6 60.5 111.0 C 70.4 92.4 95.6 79.8 115.5 68.3 C 135.4 56.8 158.6 41.9 180.0 42.0 Z" pathLength="1"></path>
-          <circle class="node n0" cx="180.0" cy="42.0" r="10" fill="#7a4a46"></circle>
-          <circle class="node n1" cx="301.2" cy="110.0" r="10" fill="#2f4a30"></circle>
-          <circle class="node n2" cx="298.6" cy="248.5" r="10" fill="#ee7b56"></circle>
-          <circle class="node n3" cx="180.0" cy="316.0" r="10" fill="#24405f"></circle>
-          <circle class="node n4" cx="59.6" cy="249.5" r="10" fill="#d97a4f"></circle>
-          <circle class="node n5" cx="60.5" cy="111.0" r="10" fill="#b8583f"></circle>
-          <image class="mark" href="logo-mark.png" x="148" y="148" width="64" height="64"></image>
+          <defs>
+            <path id="ringPath" pathLength="1" d="M 180.0 42.0 C 201.4 42.1 223.8 57.8 244.0 69.1 C 264.2 80.5 290.9 91.5 301.2 110.0 C 311.6 128.5 306.4 156.9 306.0 180.0 C 305.6 203.1 309.2 230.5 298.6 248.5 C 288.1 266.5 262.3 277.0 242.5 288.3 C 222.7 299.5 201.0 315.7 180.0 316.0 C 159.0 316.3 136.6 301.1 116.5 290.0 C 96.4 278.9 69.7 267.8 59.6 249.5 C 49.5 231.2 55.9 203.1 56.0 180.0 C 56.1 156.9 50.6 129.6 60.5 111.0 C 70.4 92.4 95.6 79.8 115.5 68.3 C 135.4 56.8 158.6 41.9 180.0 42.0 Z"></path>
+            <radialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#e4572e" stop-opacity=".9"></stop>
+              <stop offset="100%" stop-color="#e4572e" stop-opacity="0"></stop>
+            </radialGradient>
+          </defs>
+          <!-- ブランドの輪。特定のアプリ数に紐づけない（アプリが増減しても作り直し不要） -->
+          <use class="ring" href="#ringPath"></use>
+
+          <!-- 輪をぐるぐる巡り続ける光の粒。「ぐるっと」を止まらない動きで体現する -->
+          <g class="orbit">
+            <circle class="orb-trail" r="16" fill="url(#orbGlow)"></circle>
+            <circle class="orb" r="5.5" fill="#e4572e"></circle>
+          </g>
+
+          <g class="mark-stage">
+            <image class="mark" href="logo-mark.png" x="150" y="150" width="60" height="60"></image>
+          </g>
         </svg>
       </button>
       <p class="loop-caption">タップでもう一度</p>
@@ -320,14 +343,53 @@
 <script>
   (function () {
     var stage = document.getElementById('loopStage');
+    var visual = document.getElementById('heroVisual');
     if (!stage) return;
-    var animated = stage.querySelectorAll('.ring, .node, .mark');
+    var animated = stage.querySelectorAll('.ring, .mark, .orbit');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     stage.addEventListener('click', function () {
       // inline styleでいったんアニメーションを止め、リフローを挟んで再度CSSのアニメーションを適用し直す
       animated.forEach(function (el) { el.style.animation = 'none'; });
       void stage.offsetWidth;
       animated.forEach(function (el) { el.style.animation = ''; });
+      // ロゴ（循環の矢印）を1回転させる。前の再生が終わっていなくても続けて起動できるよう、
+      // 一度クラスを外してリフローしてから付け直す
+      stage.classList.remove('spin');
+      void stage.offsetWidth;
+      stage.classList.add('spin');
     });
+
+    // マウス追従の視差（ポインタ精度のあるデバイス限定、reduced-motion時は無効）
+    if (visual && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+      var targetX = 0, targetY = 0, curX = 0, curY = 0, raf = null;
+      var maxTilt = 10;
+
+      function loop() {
+        curX += (targetX - curX) * 0.12;
+        curY += (targetY - curY) * 0.12;
+        stage.style.transform = 'rotateX(' + curY + 'deg) rotateY(' + curX + 'deg)';
+        if (Math.abs(targetX - curX) > 0.02 || Math.abs(targetY - curY) > 0.02) {
+          raf = requestAnimationFrame(loop);
+        } else {
+          raf = null;
+        }
+      }
+      function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+
+      visual.addEventListener('mousemove', function (e) {
+        var rect = visual.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width - 0.5;
+        var py = (e.clientY - rect.top) / rect.height - 0.5;
+        targetX = px * maxTilt * 2;
+        targetY = -py * maxTilt * 2;
+        kick();
+      });
+      visual.addEventListener('mouseleave', function () {
+        targetX = 0; targetY = 0;
+        kick();
+      });
+    }
   })();
 </script>
 
