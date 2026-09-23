@@ -87,13 +87,14 @@
   .jump a { padding: 4px 2px; text-decoration: none; border-bottom: 2px solid transparent; transition: border-color .15s ease; }
   .jump a:hover { border-color: var(--loop); }
 
-  /* ループイラスト：手描き風の輪＋ぐるぐる巡り続ける光の粒＋回転するロゴ。
+  /* ループイラスト：手描き風の輪＋ぐるぐる巡り続ける光の粒。
+     ロゴマーク自体はブランドの顔なので、常に正立のまま一切動かさない
+     （傾ける・回すのはロゴ以外の装飾要素だけに限定する）。
      アプリの数に紐づかない構成なので、アプリが増減しても作り直し不要。 */
-  .hero-visual { perspective: 900px; }
   .loop-stage {
     appearance: none; background: none; border: none; padding: 0; margin: 32px auto 4px; cursor: pointer;
     width: min(86vw, 360px); aspect-ratio: 1;
-    display: block; transform-style: preserve-3d; will-change: transform;
+    display: block;
   }
   .loop-stage svg { width: 100%; height: 100%; display: block; overflow: visible; }
   #ringPath { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
@@ -109,10 +110,8 @@
   .loop-stage .orb-trail { transform: translate(-16px, -16px); }
   .loop-stage .orb { transform: translate(-5.5px, -5.5px); }
 
-  .mark-stage { transform-origin: center; transform-box: fill-box; transition: transform .6s cubic-bezier(.3,1.6,.4,1); }
+  /* ロゴマーク：フェードイン以外の変形は一切加えない（常に正立・固定） */
   .loop-stage .mark { opacity: 0; animation: fade-mark .6s ease forwards; animation-delay: .15s; }
-  .loop-stage:hover .mark-stage, .loop-stage:focus-visible .mark-stage { transform: rotate(24deg); }
-  .loop-stage.spin .mark-stage { animation: spin-once .7s cubic-bezier(.3,1.1,.3,1); }
 
   .loop-caption { margin-top: 10px; font-size: .78rem; color: var(--muted); }
 
@@ -120,15 +119,11 @@
   @keyframes fade-mark { to { opacity: 1; } }
   @keyframes orbit-fade-in { to { opacity: 1; } }
   @keyframes orbit-move { to { offset-distance: 100%; } }
-  @keyframes spin-once { to { transform: rotate(360deg); } }
 
   @media (prefers-reduced-motion: reduce) {
-    .loop-stage { transition: none; }
     .loop-stage .ring { animation: none; stroke-dashoffset: 0; }
     .loop-stage .mark { animation: none; opacity: 1; }
     .loop-stage .orbit { animation: none; opacity: 0; }
-    .mark-stage, .loop-stage.spin .mark-stage { animation: none; transition: none; }
-    .loop-stage:hover .mark-stage, .loop-stage:focus-visible .mark-stage { transform: none; }
   }
 
   section { padding: 48px 0; border-top: 1px solid var(--line); }
@@ -231,9 +226,7 @@
             <circle class="orb" r="5.5" fill="#e4572e"></circle>
           </g>
 
-          <g class="mark-stage">
-            <image class="mark" href="logo-mark.png" x="150" y="150" width="60" height="60"></image>
-          </g>
+          <image class="mark" href="logo-mark.png" x="150" y="150" width="60" height="60"></image>
         </svg>
       </button>
       <p class="loop-caption">タップでもう一度</p>
@@ -343,53 +336,17 @@
 <script>
   (function () {
     var stage = document.getElementById('loopStage');
-    var visual = document.getElementById('heroVisual');
     if (!stage) return;
+    // ロゴマーク（.mark）は常に正立・固定のため、ここでは動かさない。
+    // 動かしてよいのは輪の描画（.ring）と周回する光の粒（.orbit）だけ。
     var animated = stage.querySelectorAll('.ring, .mark, .orbit');
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     stage.addEventListener('click', function () {
       // inline styleでいったんアニメーションを止め、リフローを挟んで再度CSSのアニメーションを適用し直す
       animated.forEach(function (el) { el.style.animation = 'none'; });
       void stage.offsetWidth;
       animated.forEach(function (el) { el.style.animation = ''; });
-      // ロゴ（循環の矢印）を1回転させる。前の再生が終わっていなくても続けて起動できるよう、
-      // 一度クラスを外してリフローしてから付け直す
-      stage.classList.remove('spin');
-      void stage.offsetWidth;
-      stage.classList.add('spin');
     });
-
-    // マウス追従の視差（ポインタ精度のあるデバイス限定、reduced-motion時は無効）
-    if (visual && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
-      var targetX = 0, targetY = 0, curX = 0, curY = 0, raf = null;
-      var maxTilt = 10;
-
-      function loop() {
-        curX += (targetX - curX) * 0.12;
-        curY += (targetY - curY) * 0.12;
-        stage.style.transform = 'rotateX(' + curY + 'deg) rotateY(' + curX + 'deg)';
-        if (Math.abs(targetX - curX) > 0.02 || Math.abs(targetY - curY) > 0.02) {
-          raf = requestAnimationFrame(loop);
-        } else {
-          raf = null;
-        }
-      }
-      function kick() { if (!raf) raf = requestAnimationFrame(loop); }
-
-      visual.addEventListener('mousemove', function (e) {
-        var rect = visual.getBoundingClientRect();
-        var px = (e.clientX - rect.left) / rect.width - 0.5;
-        var py = (e.clientY - rect.top) / rect.height - 0.5;
-        targetX = px * maxTilt * 2;
-        targetY = -py * maxTilt * 2;
-        kick();
-      });
-      visual.addEventListener('mouseleave', function () {
-        targetX = 0; targetY = 0;
-        kick();
-      });
-    }
   })();
 </script>
 
