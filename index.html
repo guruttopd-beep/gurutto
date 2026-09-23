@@ -36,50 +36,109 @@
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap">
+
 <style>
   :root {
-    --ink: #111;
-    --muted: #5f5f5f;
-    --line: #e6e6e1;
-    --soft: #f7f6f2;
-    --accent: #e4572e;
+    --ink: #211d18;
+    --paper: #fbf7f0;
+    --muted: #756e62;
+    --line: #e6ded0;
+    --loop: #e4572e;
+    --card: #ffffff;
+    --focus: #e4572e;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: var(--paper); }
   body {
     font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
     line-height: 1.8;
     color: var(--ink);
-    background: #fff;
+    background: var(--paper);
     -webkit-text-size-adjust: 100%;
   }
   a { color: inherit; }
-  a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .skip-link {
+    position: absolute; left: 12px; top: -48px; z-index: 10;
+    background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px;
+    text-decoration: none; font-size: .85rem; transition: top .15s ease;
+  }
+  .skip-link:focus { top: 12px; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+  .display { font-family: "Zen Maru Gothic", "Hiragino Sans", "Yu Gothic", sans-serif; }
 
   /* ヒーロー */
-  .hero { text-align: center; padding: 48px 0 36px; }
-  .hero .mark { width: 72px; height: auto; }
-  .hero .brand { margin-top: 8px; font-size: 1.05rem; font-weight: 700; letter-spacing: .28em; }
-  .hero h1 { margin-top: 20px; font-size: 1.5rem; line-height: 1.55; font-weight: 700; }
+  .hero { padding: 40px 0 8px; overflow: hidden; }
+  .hero-grid { max-width: 920px; margin: 0 auto; padding: 0 20px; text-align: center; }
+  .hero-copy { max-width: 30em; margin: 0 auto; }
+  .brand-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .brand-row img { width: 30px; height: 30px; }
+  .hero .brand { font-size: 1rem; font-weight: 700; letter-spacing: .22em; }
+  .hero h1 { margin: 22px auto 0; font-size: 1.5rem; line-height: 1.55; font-weight: 700; max-width: 18em; }
   /* 日本語の見出しが1文字だけ次の行に落ちないようにする（対応ブラウザのみ有効） */
-  h1, h2, .lead, .intro, .app p { text-wrap: balance; word-break: auto-phrase; }
+  h1, h2, .lead, .intro, .app p { text-wrap: balance; overflow-wrap: break-word; }
   .app p { text-wrap: pretty; }
-  .hero .lead { margin-top: 12px; color: var(--muted); }
-  .jump { margin-top: 24px; display: flex; justify-content: center; gap: 8px 20px; flex-wrap: wrap; font-size: .9rem; }
-  .jump a { padding: 4px 2px; }
+  .hero .lead { margin-top: 14px; color: var(--muted); max-width: 30em; }
+  .jump { margin-top: 26px; display: flex; justify-content: center; gap: 6px 22px; flex-wrap: wrap; font-size: .9rem; }
+  .jump a { padding: 4px 2px; text-decoration: none; border-bottom: 2px solid transparent; transition: border-color .15s ease; }
+  .jump a:hover { border-color: var(--loop); }
 
-  section { padding: 44px 0; border-top: 1px solid var(--line); }
-  h2 { font-size: 1.3rem; line-height: 1.5; margin-bottom: 8px; }
-  h2::after { content: ""; display: block; width: 36px; height: 4px; margin-top: 8px; background: var(--accent); }
-  h3.group { margin: 28px 0 12px; font-size: .95rem; color: var(--muted); font-weight: 600; }
-  .intro { color: var(--muted); margin-top: 12px; }
+  /* ループイラスト */
+  .loop-stage {
+    appearance: none; background: none; border: none; padding: 0; margin: 32px auto 4px; cursor: pointer;
+    width: min(78vw, 300px); aspect-ratio: 1;
+    display: block;
+  }
+  .loop-stage svg { width: 100%; height: 100%; display: block; }
+  .loop-stage .ring {
+    fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 1; stroke-dashoffset: 1;
+    animation: draw-ring 1.7s cubic-bezier(.65,.05,.2,1) forwards;
+  }
+  .loop-stage .node {
+    opacity: 0; transform-origin: center; transform-box: fill-box; transform: scale(0);
+    animation: pop-node .5s cubic-bezier(.2,1.4,.4,1) forwards;
+  }
+  .loop-stage .mark { opacity: 0; animation: fade-mark .6s ease forwards; animation-delay: .15s; }
+  .loop-stage .n0 { animation-delay: 1.05s; }
+  .loop-stage .n1 { animation-delay: 1.15s; }
+  .loop-stage .n2 { animation-delay: 1.25s; }
+  .loop-stage .n3 { animation-delay: 1.35s; }
+  .loop-stage .n4 { animation-delay: 1.45s; }
+  .loop-stage .n5 { animation-delay: 1.55s; }
+  .loop-caption { margin-top: 10px; font-size: .78rem; color: var(--muted); }
+
+  @keyframes draw-ring { to { stroke-dashoffset: 0; } }
+  @keyframes pop-node { to { opacity: 1; transform: scale(1); } }
+  @keyframes fade-mark { to { opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loop-stage .ring { animation: none; stroke-dashoffset: 0; }
+    .loop-stage .node, .loop-stage .mark { animation: none; opacity: 1; transform: scale(1); }
+  }
+
+  section { padding: 48px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 1.32rem; line-height: 1.5; margin-bottom: 8px; }
+  h2::after { content: ""; display: block; width: 34px; height: 4px; margin-top: 10px; background: var(--loop); border-radius: 2px; }
+  h3.group { margin: 30px 0 12px; font-size: .95rem; color: var(--muted); font-weight: 600; }
+  .intro { color: var(--muted); margin-top: 12px; max-width: 34em; }
 
   /* アプリカード */
   .apps { display: grid; grid-template-columns: 1fr; gap: 14px; }
-  .app { display: flex; gap: 14px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
-  .app img { width: 72px; height: 72px; flex: none; border-radius: 16px; background: var(--soft); }
+  .app {
+    display: flex; gap: 14px; padding: 16px; border: 1px solid var(--line); border-radius: 18px; background: var(--card);
+    transition: box-shadow .18s ease, border-color .18s ease, transform .18s ease;
+  }
+  .app:hover, .app:focus-within {
+    border-color: #d8cdb8; transform: translateY(-2px);
+    box-shadow: 0 10px 24px -14px rgba(70, 46, 26, .35);
+  }
+  .app img { width: 72px; height: 72px; flex: none; border-radius: 18px; background: var(--paper); }
   .app .body { min-width: 0; }
-  .app h4 { font-size: 1.05rem; line-height: 1.5; }
+  .app h4 { font-size: 1.05rem; line-height: 1.5; font-weight: 700; }
   .badge { display: inline-block; margin-left: 6px; padding: 0 8px; font-size: .72rem; font-weight: 600; border-radius: 999px; vertical-align: 2px; }
   .badge.live { background: #e6f2e8; color: #1b5e20; }
   .badge.soon { background: #efefeb; color: var(--muted); }
@@ -88,11 +147,12 @@
   /* ボタン */
   .btn {
     display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
-    padding: 0 20px; border-radius: 8px; border: 2px solid var(--ink);
+    padding: 0 20px; border-radius: 10px; border: 2px solid var(--ink);
     background: var(--ink); color: #fff; font-weight: 700; font-size: .95rem; text-decoration: none;
+    transition: opacity .15s ease, transform .15s ease;
   }
-  .btn:hover { opacity: .88; }
-  .btn.ghost { background: #fff; color: var(--ink); }
+  .btn:hover { opacity: .88; transform: translateY(-1px); }
+  .btn.ghost { background: transparent; color: var(--ink); }
   .app .btn { margin-top: 10px; min-height: 40px; padding: 0 16px; font-size: .88rem; }
   .cta { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
   .fine { margin-top: 12px; color: var(--muted); font-size: .85rem; }
@@ -104,25 +164,57 @@
   footer a { margin: 0 6px; }
 
   @media (min-width: 640px) {
-    .hero { padding: 72px 0 48px; }
-    .hero h1 { font-size: 1.9rem; }
+    .hero h1 { font-size: 1.85rem; }
     .apps { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (min-width: 860px) {
+    .hero h1 { font-size: 2.15rem; }
+    .hero { padding: 64px 0 8px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 260px; align-items: center; gap: 40px; text-align: left; }
+    .hero-copy { max-width: none; margin: 0; }
+    .brand-row { justify-content: flex-start; }
+    .jump { justify-content: flex-start; }
+    .loop-stage { margin: 0; width: 100%; }
+    .loop-caption { text-align: center; }
   }
 </style>
 </head>
 <body>
 
+<a class="skip-link" href="#apps">本文へスキップ</a>
+
 <header class="hero">
-  <div class="wrap">
-    <img class="mark" src="logo-mark.png" alt="" width="72" height="70">
-    <p class="brand">GURUTTO</p>
-    <h1>手元で完結する、実用的な<br>Androidアプリを作っています。</h1>
-    <p class="lead">アカウント登録は不要。入力した記録は、開発者のサーバーに送信されず、端末内に保存されます。</p>
-    <nav class="jump" aria-label="ページ内リンク">
-      <a href="#apps">アプリ一覧</a>
-      <a href="#making">つくり方</a>
-      <a href="#about">このサイトについて</a>
-    </nav>
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="brand-row">
+        <img src="logo-mark.png" alt="" width="30" height="30">
+        <p class="brand display">GURUTTO</p>
+      </div>
+      <h1 class="display">手元で完結する、実用的な<br>Androidアプリを作っています。</h1>
+      <p class="lead">アカウント登録は不要。入力した記録は、開発者のサーバーに送信されず、端末内に保存されます。</p>
+      <nav class="jump" aria-label="ページ内リンク">
+        <a href="#apps">アプリ一覧</a>
+        <a href="#making">つくり方</a>
+        <a href="#about">このサイトについて</a>
+      </nav>
+    </div>
+
+    <div class="hero-visual">
+      <button type="button" class="loop-stage" id="loopStage" aria-label="ロゴのループをもう一度描く">
+        <svg viewBox="0 0 360 360" aria-hidden="true">
+          <path class="ring" d="M 180.0 42.0 C 201.4 42.1 223.8 57.8 244.0 69.1 C 264.2 80.5 290.9 91.5 301.2 110.0 C 311.6 128.5 306.4 156.9 306.0 180.0 C 305.6 203.1 309.2 230.5 298.6 248.5 C 288.1 266.5 262.3 277.0 242.5 288.3 C 222.7 299.5 201.0 315.7 180.0 316.0 C 159.0 316.3 136.6 301.1 116.5 290.0 C 96.4 278.9 69.7 267.8 59.6 249.5 C 49.5 231.2 55.9 203.1 56.0 180.0 C 56.1 156.9 50.6 129.6 60.5 111.0 C 70.4 92.4 95.6 79.8 115.5 68.3 C 135.4 56.8 158.6 41.9 180.0 42.0 Z" pathLength="1"></path>
+          <circle class="node n0" cx="180.0" cy="42.0" r="10" fill="#7a4a46"></circle>
+          <circle class="node n1" cx="301.2" cy="110.0" r="10" fill="#2f4a30"></circle>
+          <circle class="node n2" cx="298.6" cy="248.5" r="10" fill="#ee7b56"></circle>
+          <circle class="node n3" cx="180.0" cy="316.0" r="10" fill="#24405f"></circle>
+          <circle class="node n4" cx="59.6" cy="249.5" r="10" fill="#d97a4f"></circle>
+          <circle class="node n5" cx="60.5" cy="111.0" r="10" fill="#b8583f"></circle>
+          <image class="mark" href="logo-mark.png" x="148" y="148" width="64" height="64"></image>
+        </svg>
+      </button>
+      <p class="loop-caption">タップでもう一度</p>
+    </div>
   </div>
 </header>
 
@@ -131,7 +223,7 @@
        UTM規約: utm_source=hp / utm_medium=web / utm_campaign=hub_apps（Play Consoleの獲得レポートで見る） -->
   <section id="apps">
     <div class="wrap">
-      <h2>アプリ一覧</h2>
+      <h2 class="display">アプリ一覧</h2>
 
       <h3 class="group">公開中（Google Play）</h3>
       <div class="apps">
@@ -195,7 +287,7 @@
 
   <section id="making">
     <div class="wrap">
-      <h2>このアプリは、AI社員と作っています</h2>
+      <h2 class="display">このアプリは、AI社員と作っています</h2>
       <p class="intro">非エンジニアが、Claude Code の専門エージェント（AI社員）のチームと、複数のアプリを同時に開発・運営しています。何をどう任せているのか、設定ファイルや組織図は個人情報を除いた実物を公開しながら、「読んで真似できる」連載にまとめています。</p>
       <div class="cta">
         <a class="btn" href="https://note.com/ai_shain_keiei" rel="noopener">noteで連載を読む</a>
@@ -207,7 +299,7 @@
 
   <section id="about">
     <div class="wrap">
-      <h2>このサイトについて</h2>
+      <h2 class="display">このサイトについて</h2>
       <ul class="plain">
         <li>個人で開発している、Android向けアプリのサイトです（Google Playの開発者名は「gurutto」）。</li>
         <li>各アプリは、アカウント登録なしで使える設計です。広告（Google AdMob）を表示するアプリと、買い切りのアプリ内課金で機能を解除できるアプリがあります。詳しくは<a href="https://guruttopd-beep.github.io/">プライバシーポリシー</a>をご覧ください。</li>
@@ -224,6 +316,20 @@
     <p style="margin-top:8px">&copy; 2026 gurutto</p>
   </div>
 </footer>
+
+<script>
+  (function () {
+    var stage = document.getElementById('loopStage');
+    if (!stage) return;
+    var animated = stage.querySelectorAll('.ring, .node, .mark');
+    stage.addEventListener('click', function () {
+      // inline styleでいったんアニメーションを止め、リフローを挟んで再度CSSのアニメーションを適用し直す
+      animated.forEach(function (el) { el.style.animation = 'none'; });
+      void stage.offsetWidth;
+      animated.forEach(function (el) { el.style.animation = ''; });
+    });
+  })();
+</script>
 
 </body>
 </html>
