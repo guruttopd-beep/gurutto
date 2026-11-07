@@ -148,6 +148,13 @@
   .badge { display: inline-block; margin-left: 6px; padding: 0 8px; font-size: .72rem; font-weight: 600; border-radius: 999px; vertical-align: 2px; }
   .badge.live { background: #e6f2e8; color: #1b5e20; }
   .badge.soon { background: #efefeb; color: var(--muted); }
+  .badge.new { background: #fde9e1; color: #a63a17; margin-left: 0; margin-right: 6px; }
+  .newbar { margin-top: 14px; padding: 8px 14px; font-size: .9rem; background: #fdf1ea; border: 1px solid #f3d5c6; border-radius: 10px; }
+  .newbar .badge { margin-left: 0; }
+  .app.is-new { border-color: #f3d5c6; }
+  .vid { margin-top: 8px; }
+  .vid summary { cursor: pointer; font-size: .88rem; color: var(--muted); min-height: 32px; display: flex; align-items: center; }
+  .vid video { display: block; width: 100%; max-width: 220px; aspect-ratio: 9 / 16; margin-top: 6px; border-radius: 12px; background: #000; }
   .app p { margin-top: 4px; font-size: .92rem; line-height: 1.7; }
 
   /* ボタン */
@@ -241,6 +248,7 @@
     <div class="wrap">
       <h2 class="display">アプリ一覧</h2>
 
+      <p class="newbar"><span class="badge new">NEW</span> 新着：<a href="#feelish">Feelish（2026年11月公開）</a></p>
       <h3 class="group">公開中（Google Play）</h3>
       <div class="apps">
         <article class="app">
@@ -249,6 +257,7 @@
             <h4>冠婚葬祭ポケット<span class="badge live">公開中</span></h4>
             <p>香典・ご祝儀の相場の目安をすぐ確認。結婚式・葬儀・法事のマナーと挨拶文例をオフラインで。式場で電波がなくても開けます。</p>
             <p><a href="kouden-goshugi.html">香典・ご祝儀の相場の目安（早見表）を読む</a></p>
+            <details class="vid"><summary>動画を見る</summary><video muted playsinline loop preload="none" poster="img/poster-kankonpocket.jpg" src="video/kankonpocket.mp4" controls aria-label="冠婚葬祭ポケットの紹介動画（音声なし）"></video></details>
             <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.kankonpocket&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="冠婚葬祭ポケットをGoogle Playで見る">Google Playで見る</a>
           </div>
         </article>
@@ -258,6 +267,7 @@
           <div class="body">
             <h4>そなりす<span class="badge live">公開中</span></h4>
             <p>家族の人数から必要な備蓄量を自動計算。賞味期限が切れる前に、通知でお知らせします。</p>
+            <details class="vid"><summary>動画を見る</summary><video muted playsinline loop preload="none" poster="img/poster-sonaestock.jpg" src="video/sonaestock.mp4" controls aria-label="そなりすの紹介動画（音声なし）"></video></details>
             <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.sonaestock&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="そなりすをGoogle Playで見る">Google Playで見る</a>
           </div>
         </article>
@@ -267,6 +277,7 @@
           <div class="body">
             <h4>あと何回<span class="badge live">公開中</span></h4>
             <p>大切な人との年齢と会う頻度から「あと何回会えるか」を計算して、ホーム画面にそっと表示します。呼び名や生年月日は外部に送信しません。</p>
+            <details class="vid"><summary>動画を見る</summary><video muted playsinline loop preload="none" poster="img/poster-atonankai.jpg" src="video/atonankai.mp4" controls aria-label="あと何回の紹介動画（音声なし）"></video></details>
             <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.atonankai&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="あと何回をGoogle Playで見る">Google Playで見る</a>
           </div>
         </article>
@@ -276,6 +287,7 @@
           <div class="body">
             <h4>ひとネタ<span class="badge live">公開中</span></h4>
             <p>営業・接客のアイスブレイクに使える雑談のネタが、毎朝ひとつ届きます。そのまま言える切り出しフレーズ付き。</p>
+            <details class="vid"><summary>動画を見る</summary><video muted playsinline loop preload="none" poster="img/poster-zatsudan.jpg" src="video/zatsudan.mp4" controls aria-label="ひとネタの紹介動画（音声なし）"></video></details>
             <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.zatsudan&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="ひとネタをGoogle Playで見る">Google Playで見る</a>
           </div>
         </article>
@@ -285,6 +297,7 @@
           <div class="body">
             <h4>候彩ウィジェット<span class="badge live">公開中</span></h4>
             <p>季節とともに移ろう、和のホーム画面ウィジェット。時計・日付・バッテリーは無料。プレミアム（買い切り）で、二十四節気の伝統色に。</p>
+            <details class="vid"><summary>動画を見る</summary><video muted playsinline loop preload="none" poster="img/poster-wawidget.jpg" src="video/wawidget.mp4" controls aria-label="候彩ウィジェットの紹介動画（音声なし）"></video></details>
             <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.wawidget&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="候彩ウィジェットをGoogle Playで見る">Google Playで見る</a>
           </div>
         </article>
@@ -292,8 +305,9 @@
         <article class="app">
           <img src="img/app-daitai.png" alt="" width="72" height="72">
           <div class="body">
-            <h4>Feelish<span class="badge live">公開中</span></h4>
+            <h4>Feelish<span class="badge new">NEW</span><span class="badge live">公開中</span></h4>
             <p>体感で予想して、体重計の日に答え合わせ。体感と実測のズレを楽しむ、シンプルな体重記録アプリ。無料・登録不要。</p>
+            <details class="vid"><summary>動画を見る</summary><video muted playsinline loop preload="none" poster="img/poster-daitai.jpg" src="video/daitai.mp4" controls aria-label="Feelishの紹介動画（音声なし）"></video></details>
             <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.daitai&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="FeelishをGoogle Playで見る">Google Playで見る</a>
           </div>
         </article>
