@@ -82,6 +82,11 @@
   .tablewrap { margin-top:14px; overflow-x:auto; }
   table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); }
   th, td { padding:10px 14px; border-bottom:1px solid var(--line); text-align:left; font-size:.95rem; }
+  @media (max-width: 480px) {
+    table { table-layout:fixed; }
+    th, td { padding:9px 10px; font-size:.88rem; word-break:break-all; white-space:normal !important; }
+    th[scope="row"] { width:45%; }
+  }
   th { background:#f3ece0; font-weight:700; white-space:nowrap; }
   ul { margin-top:12px; padding-left:1.2em; }
   li { margin-bottom:6px; }
