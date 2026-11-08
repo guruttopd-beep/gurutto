@@ -74,6 +74,8 @@
   header { padding:28px 0 8px; }
   header a { font-size:.9rem; color:var(--muted); text-decoration:none; }
   h1 { margin-top:18px; font-size:1.5rem; line-height:1.55; text-wrap:balance; }
+  /* 題名が「目／安」のように語の途中で折り返さないよう、意味のまとまりごとに改行させる */
+  h1 .nb { display:inline-block; }
   h2 { margin:40px 0 8px; font-size:1.25rem; line-height:1.5; }
   h2::after { content:""; display:block; width:34px; height:4px; margin-top:10px; background:var(--loop); border-radius:2px; }
   p { margin-top:12px; }
@@ -104,7 +106,7 @@
 </header>
 
 <main class="wrap">
-  <h1>香典・ご祝儀の相場の目安（関係別の早見表）</h1>
+  <h1><span class="nb">香典・ご祝儀の相場の目安</span><span class="nb">（関係別の早見表）</span></h1>
   <p class="lead">香典（葬儀・通夜）とご祝儀（結婚式）の金額は、故人や新郎新婦との関係、自分の年齢、地域によって変わります。ここでは、一般的に言われている目安を関係別にまとめました。正解がひとつに決まるものではないので、「迷ったときの出発点」としてお使いください。</p>
   <p class="note">この表は、冠婚葬祭ポケットの無料記事「香典の相場はいくらが目安か」「ご祝儀の相場と袋の書き方」の内容をもとにしています。公的に決まった金額ではなく、一般的に言われている目安です。調査や統計にもとづく数値ではなく、開発者（このサイトの運営者）が一般的な解説をもとにまとめたもので、2026年11月時点の内容です。金額を保証するものではありません。</p>
 

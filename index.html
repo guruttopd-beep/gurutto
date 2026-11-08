@@ -197,7 +197,8 @@
     text-decoration: none; font-size: .85rem; transition: top .15s ease;
   }
   .skip-link:focus { top: 12px; }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+  /* ヒーローと本文の左端をそろえるため、どちらも920pxに統一（2026-11-08） */
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
   .display { font-family: "Zen Maru Gothic", "Hiragino Sans", "Yu Gothic", sans-serif; }
 
   /* ヒーロー */
@@ -272,13 +273,16 @@
     box-shadow: 0 10px 24px -14px rgba(70, 46, 26, .35);
   }
   .app img { width: 72px; height: 72px; flex: none; border-radius: 18px; background: var(--paper); }
-  .app .body { min-width: 0; }
+  /* 本文を縦に積み、ボタンは常にカードの下端へ（横に並ぶカードでボタンの高さをそろえる） */
+  .app .body { min-width: 0; flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
   .app h4 { font-size: 1.05rem; line-height: 1.5; font-weight: 700; }
-  .use { font-size: .82rem; font-weight: 600; color: var(--muted); }
+  /* 用途の一言は名前の下の行に置く（名前の横に置くと語の途中で折り返していた） */
+  .use { display: block; margin-top: 2px; font-size: .82rem; font-weight: 600; color: var(--muted); }
+  .feature .use { margin-top: 4px; }
   .badge { display: inline-block; margin-left: 6px; padding: 0 8px; font-size: .72rem; font-weight: 600; border-radius: 999px; vertical-align: 2px; }
   .badge.live { background: #e6f2e8; color: #1b5e20; }
   .badge.soon { background: #efefeb; color: var(--muted); }
-  .badge.new { background: #fde9e1; color: #a63a17; margin-left: 0; margin-right: 6px; }
+  .badge.new { background: #fde9e1; color: #a63a17; }
   /* 注目カード（Feelish）：一覧の先頭。広いときは左に説明・右に縦動画、狭いときは説明の下に動画 */
   .feature { margin-top: 18px; display: flex; flex-direction: column; gap: 18px; padding: 20px; background: #fdf1ea; border: 1px solid #f3d5c6; border-radius: 20px; scroll-margin-top: 16px; }
   .feature-head { display: flex; align-items: center; gap: 14px; }
@@ -287,15 +291,21 @@
   .feature p { margin-top: 12px; font-size: .95rem; line-height: 1.75; }
   .feature .feature-note { margin-top: 4px; font-size: .82rem; color: var(--muted); }
   .feature .btn { margin-top: 14px; }
-  .feature video { display: block; width: 100%; max-width: 220px; aspect-ratio: 9 / 16; margin: 0 auto; border-radius: 14px; background: #000; flex: none; }
+  /* height:auto が無いと、HTMLの height="640" が優先されて動画の上下に黒い帯が出る */
+  .feature video { display: block; width: 100%; max-width: 220px; height: auto; aspect-ratio: 9 / 16; margin: 0 auto; border-radius: 14px; background: #000; flex: none; }
   @media (min-width: 640px) {
     .feature { flex-direction: row; align-items: center; justify-content: space-between; }
     .feature-body { flex: 1; min-width: 0; }
     .feature video { margin: 0; width: 220px; }
   }
-  .vid { margin-top: 8px; }
-  .vid summary { cursor: pointer; font-size: .88rem; color: var(--muted); min-height: 32px; display: flex; align-items: center; }
-  .vid video { display: block; width: 100%; max-width: 220px; aspect-ratio: 9 / 16; margin-top: 6px; border-radius: 12px; background: #000; }
+  .vid { margin-top: 8px; margin-bottom: 12px; }
+  /* 「動画を見る」は押せると分かるよう、再生マークと下線を付ける */
+  .vid summary { cursor: pointer; font-size: .88rem; font-weight: 600; color: var(--ink); min-height: 32px; display: inline-flex; align-items: center; gap: 6px; list-style: none; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+  .vid summary::-webkit-details-marker { display: none; }
+  .vid summary::before { content: "▶"; font-size: .62rem; color: var(--loop); }
+  .vid[open] summary::before { content: "▼"; }
+  .vid summary:hover { text-decoration-color: var(--loop); }
+  .vid video { display: block; width: 100%; max-width: 220px; height: auto; aspect-ratio: 9 / 16; margin-top: 6px; border-radius: 12px; background: #000; }
   .app p { margin-top: 4px; font-size: .92rem; line-height: 1.7; }
 
   /* ボタン */
@@ -308,11 +318,12 @@
   .btn:hover { opacity: .88; transform: translateY(-1px); }
   .btn:active { transform: translateY(0) scale(.97); transition-duration: .05s; }
   .btn.ghost { background: transparent; color: var(--ink); }
-  .app .btn { margin-top: 10px; min-height: 40px; padding: 0 16px; font-size: .88rem; }
+  .app .btn { margin-top: auto; min-height: 40px; padding: 0 16px; font-size: .88rem; }
   .cta { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
   .fine { margin-top: 12px; color: var(--muted); font-size: .85rem; }
 
-  ul.plain { margin-top: 12px; padding-left: 1.2em; }
+  /* 本文幅を920pxに広げたので、文章は1行が長くなりすぎないよう幅を抑える */
+  ul.plain { margin-top: 12px; padding-left: 1.2em; max-width: 44em; }
   ul.plain li { margin-bottom: 8px; }
 
   footer { border-top: 1px solid var(--line); padding: 28px 0 40px; text-align: center; color: var(--muted); font-size: .85rem; }
@@ -393,7 +404,7 @@
         <div class="feature-body">
           <div class="feature-head">
             <img src="img/app-daitai.png" alt="Feelishのアプリアイコン" width="72" height="72">
-            <h3 class="display">Feelish<span class="use">｜体感で記録する体重アプリ</span><span class="badge new">NEW</span><span class="badge live">公開中</span></h3>
+            <h3 class="display">Feelish<span class="badge new">NEW</span><span class="badge live">公開中</span><span class="use">体感で記録する体重アプリ</span></h3>
           </div>
           <p>体感で予想して、体重計の日に答え合わせ。体感と実測のズレを楽しむ、シンプルな体重記録アプリ。無料・登録不要。</p>
           <p class="feature-note">2026年11月公開の新着アプリです。</p>
@@ -407,7 +418,7 @@
         <article class="app">
           <img src="img/app-kankonpocket.png" alt="冠婚葬祭ポケットのアプリアイコン" width="72" height="72" loading="lazy">
           <div class="body">
-            <h4>冠婚葬祭ポケット<span class="use">｜香典・マナー・挨拶文例</span><span class="badge live">公開中</span></h4>
+            <h4>冠婚葬祭ポケット<span class="badge live">公開中</span><span class="use">香典・マナー・挨拶文例</span></h4>
             <p>香典・ご祝儀の相場の目安をすぐ確認。結婚式・葬儀・法事のマナーと挨拶文例をオフラインで。式場で電波がなくても開けます。</p>
             <p><a href="kouden-goshugi.html">香典・ご祝儀の相場の目安（早見表）を読む</a></p>
             <details class="vid"><summary>動画を見る</summary><video width="360" height="640" muted playsinline loop preload="none" poster="img/poster-kankonpocket.jpg" src="video/kankonpocket.mp4" controls aria-label="冠婚葬祭ポケットの紹介動画（音声なし）"></video></details>
@@ -418,7 +429,7 @@
         <article class="app">
           <img src="img/app-sonaestock.png" alt="そなりすのアプリアイコン" width="72" height="72" loading="lazy">
           <div class="body">
-            <h4>そなりす<span class="use">｜防災備蓄の管理</span><span class="badge live">公開中</span></h4>
+            <h4>そなりす<span class="badge live">公開中</span><span class="use">防災備蓄の管理</span></h4>
             <p>家族の人数から必要な備蓄量を自動計算。賞味期限が切れる前に、通知でお知らせします。</p>
             <details class="vid"><summary>動画を見る</summary><video width="360" height="640" muted playsinline loop preload="none" poster="img/poster-sonaestock.jpg" src="video/sonaestock.mp4" controls aria-label="そなりすの紹介動画（音声なし）"></video></details>
             <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.sonaestock&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="そなりすをGoogle Playで見る">Google Playで見る</a>
@@ -428,7 +439,7 @@
         <article class="app">
           <img src="img/app-atonankai.png" alt="あと何回のアプリアイコン" width="72" height="72" loading="lazy">
           <div class="body">
-            <h4>あと何回<span class="use">｜会える回数の目安</span><span class="badge live">公開中</span></h4>
+            <h4>あと何回<span class="badge live">公開中</span><span class="use">会える回数の目安</span></h4>
             <p>大切な人との年齢と会う頻度から「あと何回会えるか」を計算して、ホーム画面にそっと表示します。呼び名や生年月日は外部に送信しません。</p>
             <details class="vid"><summary>動画を見る</summary><video width="360" height="640" muted playsinline loop preload="none" poster="img/poster-atonankai.jpg" src="video/atonankai.mp4" controls aria-label="あと何回の紹介動画（音声なし）"></video></details>
             <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.atonankai&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="あと何回をGoogle Playで見る">Google Playで見る</a>
@@ -438,7 +449,7 @@
         <article class="app">
           <img src="img/app-zatsudan.png" alt="ひとネタのアプリアイコン" width="72" height="72" loading="lazy">
           <div class="body">
-            <h4>ひとネタ<span class="use">｜毎朝の雑談ネタ</span><span class="badge live">公開中</span></h4>
+            <h4>ひとネタ<span class="badge live">公開中</span><span class="use">毎朝の雑談ネタ</span></h4>
             <p>営業・接客のアイスブレイクに使える雑談のネタが、毎朝ひとつ届きます。そのまま言える切り出しフレーズ付き。</p>
             <details class="vid"><summary>動画を見る</summary><video width="360" height="640" muted playsinline loop preload="none" poster="img/poster-zatsudan.jpg" src="video/zatsudan.mp4" controls aria-label="ひとネタの紹介動画（音声なし）"></video></details>
             <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.zatsudan&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="ひとネタをGoogle Playで見る">Google Playで見る</a>
@@ -448,7 +459,7 @@
         <article class="app">
           <img src="img/app-wawidget.png" alt="候彩ウィジェットのアプリアイコン" width="72" height="72" loading="lazy">
           <div class="body">
-            <h4>候彩ウィジェット<span class="use">｜和のホーム画面ウィジェット</span><span class="badge live">公開中</span></h4>
+            <h4>候彩ウィジェット<span class="badge live">公開中</span><span class="use">和のホーム画面ウィジェット</span></h4>
             <p>季節とともに移ろう、和のホーム画面ウィジェット。時計・日付・バッテリーは無料。プレミアム（買い切り）で、二十四節気の伝統色に。</p>
             <details class="vid"><summary>動画を見る</summary><video width="360" height="640" muted playsinline loop preload="none" poster="img/poster-wawidget.jpg" src="video/wawidget.mp4" controls aria-label="候彩ウィジェットの紹介動画（音声なし）"></video></details>
             <a class="btn" href="https://play.google.com/store/apps/details?id=jp.okiyama.wawidget&amp;referrer=utm_source%3Dhp%26utm_medium%3Dweb%26utm_campaign%3Dhub_apps" rel="noopener" aria-label="候彩ウィジェットをGoogle Playで見る">Google Playで見る</a>
